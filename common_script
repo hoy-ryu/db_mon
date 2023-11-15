@@ -1,0 +1,14 @@
+GREEN_BG="\e[1;42m"
+GREEN_TEXT="\e[1;32m"
+RED_BG="\e[1;41m"
+RED_TEXT="\e[1;31m"
+BLACK_BG="\e[1;40m"
+SET_NORMAL_TEXT="\e[0m"
+
+function echo_info(){
+	printf "\n${GREEN_BG}%1s${GREEN_TEXT}${BLACK_BG} %-89s ${SET_NORMAL_TEXT}\n" "" "$1"
+}
+
+function echo_warn(){
+	printf "\n${RED_BG}%1s${RED_TEXT}${BLACK_BG} %-89s ${SET_NORMAL_TEXT}\n" "" "$1"
+}

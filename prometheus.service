@@ -1,0 +1,19 @@
+[Unit]
+Description=Prometheus systemd service unit
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=db_mon
+Group=db_mon
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStart=/db_mon/prometheus/prometheus/prometheus \
+--config.file=/db_mon/prometheus/prometheus/prometheus.yml \
+--storage.tsdb.path=/db_mon/prometheus/prometheus/data
+
+SyslogIdentifier=prometheus
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

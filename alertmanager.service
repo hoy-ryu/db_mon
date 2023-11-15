@@ -1,0 +1,18 @@
+[Unit]
+Description=Alertmanager systemd service unit
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=db_mon
+Group=db_mon
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStart=/db_mon/prometheus/alertmanager/alertmanager \
+--config.file=/db_mon/prometheus/alertmanager/alertmanager.yml \
+--storage.path=/db_mon/prometheus/alertmanager/data
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

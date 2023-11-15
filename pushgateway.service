@@ -1,0 +1,17 @@
+[Unit]
+Description=pushgateway service unit
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=db_mon
+Group=db_mon
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStart=/db_mon/prometheus/pushgateway/pushgateway --persistence.file=/db_mon/prometheus/pushgateway/data/metric.store
+
+SyslogIdentifier=pushgateway
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

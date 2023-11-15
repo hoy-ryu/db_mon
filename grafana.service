@@ -1,0 +1,28 @@
+[Unit]
+Description=Grafana instance
+Documentation=http://docs.grafana.org
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+EnvironmentFile=/db_mon/grafana/conf/grafana-server
+User=db_mon
+Group=db_mon
+Type=notify
+Restart=on-failure
+WorkingDirectory=/db_mon/grafana/workdir
+RuntimeDirectory=grafana
+RuntimeDirectoryMode=0750
+ExecStart=/db_mongrafana/bin/grafana-server                              \
+                            --config=${CONF_FILE}                                   \
+                            --pidfile=${PID_FILE_DIR}/grafana-server.pid            \
+                            cfg:default.paths.logs=${LOG_DIR}                       \
+                            cfg:default.paths.data=${DATA_DIR}                      \
+                            cfg:default.paths.plugins=${PLUGINS_DIR}                \
+                            cfg:default.paths.provisioning=${PROVISIONING_CFG_DIR}
+
+LimitNOFILE=10000
+TimeoutStopSec=20
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,30 @@
+global:
+  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - localhost:9093
+
+rule_files:
+  - "/db_mon/prometheus/prometheus/rules/alert_rule.yml"
+
+
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  - job_name: "node"
+    file_sd_configs:
+      - files: ["/db_mon/prometheus/prometheus/files_sd/node.json"]
+
+  - job_name: "db"
+    file_sd_configs:
+      - files: ["/db_mon/prometheus/prometheus/files_sd/db.json"]
+
+  - job_name: 'pushgateway'
+    static_configs:
+      - targets: ['localhost:9091']

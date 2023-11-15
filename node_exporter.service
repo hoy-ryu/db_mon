@@ -1,0 +1,17 @@
+[Unit]
+Description=node_exporter service unit
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=db_mon
+Group=db_mon
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStart=/db_mon/exporter/node_exporter/node_exporter
+
+SyslogIdentifier=node_exporter
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
